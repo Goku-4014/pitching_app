@@ -1,23 +1,24 @@
 // import Image from "next/image";
 
-import StartupCard from "@/components/StartupCard";
+import StartupCard, { StartupTypeCard } from "@/components/StartupCard";
 import SearchForm from "../../components/SearchForm";
+
+import { STARTUPS_QUERY } from "@/sanity/lib/queries";
+import { sanityFetch, SanityLive } from "@/sanity/lib/live";
+// import { SanityDefaultPreview } from "sanity";
 
 export default async function Home({searchParams} : {
   searchParams: Promise<{query?: string}>
 }) {
 
    const query =(await searchParams).query;
-   const posts =[{
-    _createdAt :new Date(),
-    views: 55,
-    author: { _id:1, name: "Manish"},
-    _id:1,
-    description :' this si the discription',
-    image: "https://images.unsplash.com/photo-1527430253228-e93688616381?q=80&w=1934&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    category : "Robots",
-    title: "we Robots"
-   }]
+   const params = {search: query || null}; 
+   const {data: posts}=  await sanityFetch({ query: STARTUPS_QUERY, params});
+   
+  //  const posts = await client.fetch(STARTUPS_QUERY);
+
+  //  const  {data: posts} =await sanityFetch({query: STARTUPS_QUERY});
+  
 
   return (
     <>
@@ -44,6 +45,9 @@ export default async function Home({searchParams} : {
         </ul>
 
       </section>
+
+      <SanityLive/>
+
  
     </>
   );

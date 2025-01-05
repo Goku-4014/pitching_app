@@ -16,3 +16,31 @@ defineQuery(`*[_type == "startup" && defined(slug.current) && !defined($search) 
     views
 }
 `);
+
+
+export const STARTUP_BY_ID_QUERY =defineQuery(
+  `*[_type == "startup" && _id == $id][0]{
+  _id, 
+    title,
+    slug,
+    _createAt, 
+    
+    author -> {
+      _id, name, username, image,bio
+    },
+    description,
+    views,
+    category,
+    image,
+    pitch,
+    
+}
+`
+)
+
+
+export const STARTUP_VIEWS_QUERY =defineQuery(`
+  *[_type == "startup" && _id == $id][0]{
+    _id, views
+  }
+`)
